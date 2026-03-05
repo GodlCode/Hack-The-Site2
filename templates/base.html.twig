@@ -14,59 +14,55 @@
         {% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <div class="position-relative" style="height: 25vh;">
-            <video autoplay muted loop id="myVideo" class="w-100" style="height: 100%; object-fit: cover;">
-                <source src="{{ asset('images/video.mp4') }}" type="video/mp4">
-            </video>
-            <div class="position-absolute top-50 start-50 translate-middle">
-                <h1 style="color: white; font-size: 3rem; font-weight: bold;">OnlineGameStore</h1>
-            </div>
-        </div>
-        <section class="d-flex justify-content-center position-relative" style="margin-bottom: 2rem;">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+        <section class="d-flex justify-content-center position-relative" style="margin-bottom: 0;">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
             <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <a class="navbar-brand" href="{{ path('app_home') }}" style="font-weight: 600; color: #000;">Home</a>
-            <li class="nav-item">
-            <a class="nav-link" href="#" style="font-weight: 600; color: #000;">Catalog</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#" style="font-weight: 600; color: #000;">About Us</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#" style="font-weight: 600; color: #000;">Contact</a>
-            </li>
+            <a class="navbar-brand" href="{{ path('app_home') }}" style="font-weight: 600; color: #fff;">Home</a>
+                <li class="nav-item">
+                <a class="nav-link" href="#" style="font-weight: 600; color: #fff;">Catalog</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#" style="font-weight: 600; color: #fff;">About Us</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#" style="font-weight: 600; color: #fff;">Contact</a>
+                </li>
             </ul>
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout') }}" style="font-weight: 600; color: #000;">Logout</a>
-            </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}" style="font-weight: 600; color: #fff;">Logout</a>
+                </li>
             </ul>
             {% else %}
             <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_login') }}" style="font-weight: 600; color: #000;">Login</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_register') }}" style="font-weight: 600; color: #000;">Register</a>
-            </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}" style="font-weight: 600; color: #fff;">Login</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_register') }}" style="font-weight: 600; color: #fff;">Register</a>
+                </li>
             </ul>
             {% endif %}
             </div>
             </div>
             </nav>
-            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="pointer-events:none;">
-            </div>
         </section>
+        <div class="position-relative" style="height: 30vh; margin: 0;">
+            <video autoplay muted loop id="myVideo" class="w-100" style="height: 100%; object-fit: cover; filter: brightness(0.5);">
+            <source src="{{ asset('images/ps4.mp4') }}" type="video/mp4">
+            </video>
+            <div class="position-absolute top-50 start-50 translate-middle">
+            <h1 style="color: white; font-size: 3rem; font-weight: bold;">OnlineGameStore</h1>
+            </div>
+        </div>
         <div class="container">
             {% block body %}{% endblock %}
         </div>
         <footer class="bg-dark text-white text-center py-3 mt-auto">
             &copy; {{ "now"|date("Y") }} OnlineGameStore. All rights reserved.
         </footer>
-        
-
     </body>
 </html>
