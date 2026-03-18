@@ -3,5 +3,7 @@
 {% block title %}Hello ForumController!{% endblock %}
 
 {% block body %}
-
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {{ form(form) }}
+    {% endif %}
 {% endblock %}

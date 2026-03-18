@@ -15,10 +15,6 @@ class ForumType extends AbstractType
     {
         $builder
             ->add('comment')
-            ->add('user', EntityType::class, [
-                'class' => user::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 
