@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $lname = null;
+
+    /**
+     * @var Collection<int, Forum>
+     */
+    #[ORM\OneToMany(targetEntity: Forum::class, mappedBy: 'user')]
+    private Collection $forums;
+
+    public function __construct()
+    {
+        $this->forums = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +153,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLname(string $lname): static
     {
         $this->lname = $lname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Forum>
+     */
+    public function getForums(): Collection
+    {
+        return $this->forums;
+    }
+
+    public function addForum(Forum $forum): static
+    {
+        if (!$this->forums->contains($forum)) {
+            $this->forums->add($forum);
+            $forum->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForum(Forum $forum): static
+    {
+        if ($this->forums->removeElement($forum)) {
+            // set the owning side to null (unless already changed)
+            if ($forum->getUser() === $this) {
+                $forum->setUser(null);
+            }
+        }
 
         return $this;
     }
