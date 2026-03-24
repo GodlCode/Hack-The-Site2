@@ -47,6 +47,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Forum::class, mappedBy: 'user')]
     private Collection $forums;
 
+    #[ORM\Column]
+    private ?int $failedAttempts = 0;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lockedUntil = null;
+
     public function __construct()
     {
         $this->forums = new ArrayCollection();
@@ -185,5 +191,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getFailedAttempts(): ?int
+    {
+        return $this->failedAttempts;
+    }
+
+    public function setFailedAttempts(int $failedAttempts): static
+    {
+        $this->failedAttempts = $failedAttempts;
+
+        return $this;
+    }
+
+    public function getLockedUntil(): ?\DateTimeImmutable
+    {
+        return $this->lockedUntil;
+    }
+
+    public function setLockedUntil(?\DateTimeImmutable $lockedUntil): static
+    {
+        $this->lockedUntil = $lockedUntil;
+
+        return $this;
+    }
+
+        public function incrementFailedAttempts(): void
+    {
+        $this->failedAttempts++;
+    }
+
+    public function resetFailedAttempts(): void
+    {
+        $this->failedAttempts = 0;
+    }
+
+    public function lockUntil(\DateTimeImmutable $dateTime): void
+    {
+        $this->lockedUntil = $dateTime;
+    }
+
+    public function isLocked(): bool
+    {
+        return $this->lockedUntil !== null && $this->lockedUntil > new \DateTimeImmutable();
     }
 }

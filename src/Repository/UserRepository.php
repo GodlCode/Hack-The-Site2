@@ -14,6 +14,14 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+        public function findByEmailUnsafe(string $email): ?User
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM user WHERE email = '" . $email . "'";
+        $result = $conn->executeQuery($sql)->fetchAssociative();
+        return $result ? $this->find($result['id']) : null;
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
